@@ -1,0 +1,905 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="google-site-verification" content="UNtXB-bwRUcLHFv-rM19md7pSlBLMto2KVXRlS9C8pM" />
+<meta property="wb:webmaster" content="f98ad1486339b3b1" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="R,Machine learning," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="做簡單預測的決策樹模型並計算正確率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="決策樹分析練習">
+<meta property="og:url" content="https://freedomtomdestiny.github.io/2016/10/12/決策樹分析練習/index.html">
+<meta property="og:site_name" content="N.M.'s Blog">
+<meta property="og:description" content="做簡單預測的決策樹模型並計算正確率">
+<meta property="og:image" content="http://i.imgur.com/Ox7WDAN.png">
+<meta property="og:image" content="http://i.imgur.com/BZuuYBn.png">
+<meta property="og:updated_time" content="2016-10-11T19:45:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="決策樹分析練習">
+<meta name="twitter:description" content="做簡單預測的決策樹模型並計算正確率">
+<meta name="twitter:image" content="http://i.imgur.com/Ox7WDAN.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://freedomtomdestiny.github.io/2016/10/12/決策樹分析練習/"/>
+
+  <title> 決策樹分析練習 | N.M.'s Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-85646727-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">N.M.'s Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                決策樹分析練習
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-12T00:18:12+08:00" content="2016-10-12">
+              2016-10-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/數據分析/" itemprop="url" rel="index">
+                    <span itemprop="name">數據分析</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/12/決策樹分析練習/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/12/決策樹分析練習/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>做簡單預測的決策樹模型並計算正確率</p>
+<a id="more"></a>
+<h1 id="資料前處理"><a href="#資料前處理" class="headerlink" title="資料前處理"></a>資料前處理</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">library(rpart)</div><div class="line">library(readxl)</div><div class="line">library(rpart.plot)</div><div class="line">library(gmodels)</div><div class="line">patients &lt;- read_excel(&quot;46patients.xls&quot;)</div><div class="line">patients &lt;- patients[,-1]</div><div class="line">colnames(patients)[6] &lt;- &quot;Index&quot;</div><div class="line">colnames(patients)[8] &lt;- &quot;Target&quot;</div><div class="line">patients &lt;- patients[!is.na(patients$id),]</div><div class="line">patients$Anaesthetic &lt;- patients$Anaesthetic &gt; 0</div></pre></td></tr></table></figure>
+<h1 id="資料相關訊息"><a href="#資料相關訊息" class="headerlink" title="資料相關訊息"></a>資料相關訊息</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">head(patients)   #顯示前六筆資料</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>Age</th>
+<th>Gender</th>
+<th>BMI</th>
+<th>TBSA</th>
+<th>Index</th>
+<th>Anaesthetic</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> 24.7</td>
+<td>M</td>
+<td>22.7</td>
+<td>64</td>
+<td>34.5</td>
+<td>TRUE</td>
+<td>0</td>
+</tr>
+<tr>
+<td> 45.6</td>
+<td>M</td>
+<td>28.5</td>
+<td>48</td>
+<td>32.0</td>
+<td>FALSE</td>
+<td>1</td>
+</tr>
+<tr>
+<td> 57.2</td>
+<td>M</td>
+<td>29.0</td>
+<td>23</td>
+<td>14.0</td>
+<td>TRUE</td>
+<td>0</td>
+</tr>
+<tr>
+<td> 62.0</td>
+<td>F</td>
+<td>23.4</td>
+<td>21</td>
+<td>13.0</td>
+<td>TRUE</td>
+<td>1</td>
+</tr>
+<tr>
+<td> 77.4</td>
+<td>M</td>
+<td>27.0</td>
+<td>34</td>
+<td>22.0</td>
+<td>TRUE</td>
+<td>1</td>
+</tr>
+<tr>
+<td> 28.9</td>
+<td>F</td>
+<td>23.3</td>
+<td>20</td>
+<td>10.0</td>
+<td>FALSE</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dim(patients)[1] #資料筆數</div></pre></td></tr></table></figure>
+<p> 46</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dim(patients)[2] #屬性數</div></pre></td></tr></table></figure>
+<p> 7</p>
+<h1 id="分出測試資料與訓練資料並訂立決策樹"><a href="#分出測試資料與訓練資料並訂立決策樹" class="headerlink" title="分出測試資料與訓練資料並訂立決策樹"></a>分出測試資料與訓練資料並訂立決策樹</h1><p>經過 seed(100)x測試資料量(1~8成)x每一個node最少要幾個data(10)=8000 次測試後得到結果最好的樹</p>
+<p>測試程式碼在文末</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">num_of_data=ceiling(0.1*nrow(patients)) #10%測試資料</div><div class="line">num_of_data #資料筆數 41</div><div class="line"></div><div class="line">set.seed(42)</div><div class="line">test.index=sample(1:nrow(patients),num_of_data) #隨機抽取10%的測試資料</div><div class="line"></div><div class="line">patients.testdata=patients[test.index,] #測試</div><div class="line">patients.traindata=patients[-test.index,] #訓練</div><div class="line"></div><div class="line"># 下面建立訓練資料的決策樹</div><div class="line">patients.tree= rpart(Target ~ .,data=patients.traindata,method=&quot;class&quot;, minsplit=1, cp=1e-3)</div><div class="line"># Target~.意思相當於Target之外的所有屬性，上面之&quot;.&quot;逗點可替換</div></pre></td></tr></table></figure>
+<h2 id="得到決策樹"><a href="#得到決策樹" class="headerlink" title="得到決策樹"></a>得到決策樹</h2><p>patients.tree</p>
+<p><img src="http://i.imgur.com/Ox7WDAN.png" alt="image"></p>
+<h2 id="決策樹圖"><a href="#決策樹圖" class="headerlink" title="決策樹圖"></a>決策樹圖</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">prp(patients.tree,         # 模型</div><div class="line">    faclen=0,           # 呈現的變數不要縮寫</div><div class="line">    fallen.leaves=TRUE, # 讓樹枝以垂直方式呈現</div><div class="line">    shadow.col=&quot;gray&quot;,  # 最下面的節點塗上陰影</div><div class="line">    # number of correct classifications / number of observations in that node</div><div class="line">    extra=2)</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/BZuuYBn.png" alt="image"></p>
+<h1 id="檢查正確率"><a href="#檢查正確率" class="headerlink" title="檢查正確率"></a>檢查正確率</h1><h2 id="畫出訓練資料CrossTable"><a href="#畫出訓練資料CrossTable" class="headerlink" title="畫出訓練資料CrossTable"></a>畫出訓練資料CrossTable</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Target.traindata=patients$Target[-test.index]</div><div class="line">train.predict=predict(patients.tree, patients.traindata, type=&quot;class&quot;)</div><div class="line">CrossTable(x = Target.traindata, y = train.predict, prop.chisq=FALSE)</div></pre></td></tr></table></figure>
+<p>   Cell Contents<br>|————————-|<br>|                       N |<br>|           N / Row Total |<br>|           N / Col Total |<br>|         N / Table Total |<br>|————————-|</p>
+<p>Total Observations in Table:  41 </p>
+<h2 id="train-predict"><a href="#train-predict" class="headerlink" title="train.predict"></a>train.predict</h2><table>
+<thead>
+<tr>
+<th>Target.traindata</th>
+<th>0</th>
+<th>1</th>
+<th>Row Total </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>               0</td>
+<td>21</td>
+<td>0</td>
+<td>21  </td>
+</tr>
+<tr>
+<td></td>
+<td>1.000</td>
+<td>0.000</td>
+<td>0.512  </td>
+</tr>
+<tr>
+<td></td>
+<td>1.000</td>
+<td>0.000</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>0.512</td>
+<td>0.000</td>
+<td></td>
+</tr>
+<tr>
+<td>               1</td>
+<td>0</td>
+<td>20</td>
+<td>20  </td>
+</tr>
+<tr>
+<td></td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0.488  </td>
+</tr>
+<tr>
+<td></td>
+<td>0.000</td>
+<td>1.000</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>0.000</td>
+<td>0.488</td>
+<td></td>
+</tr>
+<tr>
+<td>    Column Total</td>
+<td>21</td>
+<td>20</td>
+<td>41  </td>
+</tr>
+<tr>
+<td></td>
+<td>0.512</td>
+<td>0.488</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="訓練資料正確率"><a href="#訓練資料正確率" class="headerlink" title="訓練資料正確率"></a>訓練資料正確率</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">train.corrcet=sum(train.predict==Target.traindata)/length(train.predict)#訓練資料之正確率</div></pre></td></tr></table></figure>
+<p>訓練資料正確率 100 %</p>
+<h2 id="畫出測試資料CrossTable"><a href="#畫出測試資料CrossTable" class="headerlink" title="畫出測試資料CrossTable"></a>畫出測試資料CrossTable</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Target.testdata=patients$Target[test.index]</div><div class="line">test.predict=predict(patients.tree, patients.testdata, type=&quot;class&quot;)</div><div class="line">CrossTable(x = Target.testdata, y = test.predict, prop.chisq=FALSE)</div></pre></td></tr></table></figure>
+<p>   Cell Contents<br>|————————-|<br>|                       N |<br>|           N / Row Total |<br>|           N / Col Total |<br>|         N / Table Total |<br>|————————-|</p>
+<p>Total Observations in Table:  5 </p>
+<h2 id="test-predict"><a href="#test-predict" class="headerlink" title="test.predict"></a>test.predict</h2><table>
+<thead>
+<tr>
+<th>Target.testdata</th>
+<th>0</th>
+<th>1</th>
+<th>Row Total  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>              0</td>
+<td>1</td>
+<td>0</td>
+<td>1 </td>
+</tr>
+<tr>
+<td></td>
+<td>1.000</td>
+<td>0.000</td>
+<td>0.200 </td>
+</tr>
+<tr>
+<td></td>
+<td>0.500</td>
+<td>0.000</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>0.200</td>
+<td>0.000</td>
+<td></td>
+</tr>
+<tr>
+<td>              1</td>
+<td>1</td>
+<td>3</td>
+<td>4 </td>
+</tr>
+<tr>
+<td></td>
+<td>0.250</td>
+<td>0.750</td>
+<td>0.800 </td>
+</tr>
+<tr>
+<td></td>
+<td>0.500</td>
+<td>1.000</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>0.200</td>
+<td>0.600</td>
+<td></td>
+</tr>
+<tr>
+<td>   Column Total</td>
+<td>2</td>
+<td>3</td>
+<td>5 </td>
+</tr>
+<tr>
+<td></td>
+<td>0.400</td>
+<td>0.600</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="測試資料正確率"><a href="#測試資料正確率" class="headerlink" title="測試資料正確率"></a>測試資料正確率</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test.correct=sum(test.predict==Target.testdata)/length(test.predict)#測試資料之正確率</div><div class="line">cat(&quot;測試資料正確率&quot;,test.correct*100,&quot;%\n&quot;)</div></pre></td></tr></table></figure>
+<p>測試資料正確率 80 %</p>
+<h1 id="測試程式碼"><a href="#測試程式碼" class="headerlink" title="測試程式碼"></a>測試程式碼</h1><p><a href="https://github.com/freedomtomdestiny/Easy_DecisionTree" target="_blank" rel="external">code</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/r/" rel="tag">#R</a>
+          
+            <a href="/tags/machine-learning/" rel="tag">#Machine learning</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/10/Laravel第三方登入/" rel="next" title="Laravel第三方登入">
+                <i class="fa fa-chevron-left"></i> Laravel第三方登入
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/12/在aws上架設opencart/" rel="prev" title="在AWS上架設OpenCart">
+                在AWS上架設OpenCart <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/avatar.png"
+               alt="N.M." />
+          <p class="site-author-name" itemprop="name">N.M.</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/freedomtomdestiny" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#資料前處理"><span class="nav-number">1.</span> <span class="nav-text">資料前處理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#資料相關訊息"><span class="nav-number">2.</span> <span class="nav-text">資料相關訊息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分出測試資料與訓練資料並訂立決策樹"><span class="nav-number">3.</span> <span class="nav-text">分出測試資料與訓練資料並訂立決策樹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#得到決策樹"><span class="nav-number">3.1.</span> <span class="nav-text">得到決策樹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#決策樹圖"><span class="nav-number">3.2.</span> <span class="nav-text">決策樹圖</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#檢查正確率"><span class="nav-number">4.</span> <span class="nav-text">檢查正確率</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#畫出訓練資料CrossTable"><span class="nav-number">4.1.</span> <span class="nav-text">畫出訓練資料CrossTable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#train-predict"><span class="nav-number">4.2.</span> <span class="nav-text">train.predict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#訓練資料正確率"><span class="nav-number">4.3.</span> <span class="nav-text">訓練資料正確率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#畫出測試資料CrossTable"><span class="nav-number">4.4.</span> <span class="nav-text">畫出測試資料CrossTable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test-predict"><span class="nav-number">4.5.</span> <span class="nav-text">test.predict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試資料正確率"><span class="nav-number">4.6.</span> <span class="nav-text">測試資料正確率</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#測試程式碼"><span class="nav-number">5.</span> <span class="nav-text">測試程式碼</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N.M.</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'heroku-hexo-blog';
+      var disqus_identifier = '2016/10/12/決策樹分析練習/';
+      var disqus_title = "決策樹分析練習";
+      var disqus_url = 'https://freedomtomdestiny.github.io/2016/10/12/決策樹分析練習/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

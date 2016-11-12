@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="google-site-verification" content="UNtXB-bwRUcLHFv-rM19md7pSlBLMto2KVXRlS9C8pM" />
+<meta property="wb:webmaster" content="f98ad1486339b3b1" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="php,Laravel," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在 cloud9 上實作 php Laravel 的 fb 及 gmail 第三方登入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel第三方登入">
+<meta property="og:url" content="https://freedomtomdestiny.github.io/2016/10/10/Laravel第三方登入/index.html">
+<meta property="og:site_name" content="N.M.'s Blog">
+<meta property="og:description" content="在 cloud9 上實作 php Laravel 的 fb 及 gmail 第三方登入">
+<meta property="og:updated_time" content="2016-10-10T07:29:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Laravel第三方登入">
+<meta name="twitter:description" content="在 cloud9 上實作 php Laravel 的 fb 及 gmail 第三方登入">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://freedomtomdestiny.github.io/2016/10/10/Laravel第三方登入/"/>
+
+  <title> Laravel第三方登入 | N.M.'s Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-85646727-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">N.M.'s Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Laravel第三方登入
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T06:29:22+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/網頁/" itemprop="url" rel="index">
+                    <span itemprop="name">網頁</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/10/Laravel第三方登入/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/10/Laravel第三方登入/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在 cloud9 上實作 php Laravel 的 fb 及 gmail 第三方登入</p>
+<a id="more"></a>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><h2 id="Web-Server-amp-PHP"><a href="#Web-Server-amp-PHP" class="headerlink" title="Web Server &amp; PHP"></a>Web Server &amp; PHP</h2><p>Apache or Nginx and PHP 5.5.9 or higher</p>
+<h2 id="GIT-amp-Composer"><a href="#GIT-amp-Composer" class="headerlink" title="GIT &amp; Composer"></a>GIT &amp; Composer</h2><p><code>sudo apt-get update</code></p>
+<p><code>sudo apt-get install git</code></p>
+<p>然後利用 Composer package manager 安裝 Laravel 及其他 package</p>
+<h1 id="Setting-up-the-project"><a href="#Setting-up-the-project" class="headerlink" title="Setting up the project"></a>Setting up the project</h1><p>創立新project</p>
+<p><code>composer create-project laravel/laravel social-login</code></p>
+<p>執行完後會生成一個叫 <strong><em>social-login</em></strong> 的資料夾</p>
+<p>接下來要安裝 Socialite 的 package</p>
+<p><code>composer require laravel/socialite</code></p>
+<p>然後打開 <strong><em>config/app.php</em></strong> 在 <strong><em>providers</em></strong> 加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Laravel\Socialite\SocialiteServiceProvider::class</div></pre></td></tr></table></figure>
+<p>在 <strong><em>aliases</em></strong> 加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;Socialite&apos; =&gt; Laravel\Socialite\Facades\Socialite::class,</div></pre></td></tr></table></figure>
+<h1 id="畫面"><a href="#畫面" class="headerlink" title="畫面"></a>畫面</h1><p>設計方面用到了 <strong>Twitter Bootstrap</strong>, <strong>Font Awesome</strong> 及 <strong>Bootstrap Social Buttons</strong></p>
+<h2 id="Master-Page"><a href="#Master-Page" class="headerlink" title="Master Page"></a>Master Page</h2><p>在 <strong><em>resources/views</em></strong> 內新增一個 <strong><em>layouts</em></strong> 資料夾</p>
+<p>然後新增一個 <strong><em>master.blade.php</em></strong> 檔案在裡面貼上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</div><div class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</div><div class="line">    &lt;title&gt;@yield(&apos;page-title&apos;) - Backendtime Social Login&lt;/title&gt;</div><div class="line">    &lt;link href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;</div><div class="line">    &lt;link href=&quot;https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;</div><div class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.0.0/bootstrap-social.min.css&quot;&gt;</div><div class="line">    &lt;style&gt;</div><div class="line">        body &#123;</div><div class="line">            padding-top: 73px;</div><div class="line">        &#125;</div><div class="line">        .social-button &#123;</div><div class="line">            text-align: center;</div><div class="line">        &#125;</div><div class="line">        ul &#123;</div><div class="line">            list-style-type: none;</div><div class="line">        &#125;</div><div class="line">        li &#123;</div><div class="line">            margin-bottom: 3px;</div><div class="line">        &#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">  &lt;nav class=&quot;navbar navbar-inverse navbar-fixed-top&quot;&gt;</div><div class="line">      &lt;div class=&quot;container&quot;&gt;</div><div class="line">        &lt;div class=&quot;navbar-header&quot;&gt;</div><div class="line">          &lt;button type=&quot;button&quot; class=&quot;navbar-toggle collapsed&quot; data-toggle=&quot;collapse&quot; data-target=&quot;#navbar&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;navbar&quot;&gt;</div><div class="line">            &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;</div><div class="line">            &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;</div><div class="line">            &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;</div><div class="line">            &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;</div><div class="line">          &lt;/button&gt;</div><div class="line">          &lt;a class=&quot;navbar-brand&quot; href=&quot;/&quot;&gt;Backendtime Social Login&lt;/a&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">        &lt;div id=&quot;navbar&quot; class=&quot;collapse navbar-collapse&quot;&gt;</div><div class="line">            &lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;</div><div class="line">                    &lt;li&gt;</div><div class="line">                        &lt;a href=&quot;#&quot;&gt;Sign In &lt;i class=&quot;fa fa-sign-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;</div><div class="line">                    &lt;/li&gt;</div><div class="line">            &lt;/ul&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/nav&gt;</div><div class="line">    &lt;div class=&quot;container&quot;&gt;</div><div class="line">        @yield(&apos;page-content&apos;)</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h2 id="主要頁面"><a href="#主要頁面" class="headerlink" title="主要頁面"></a>主要頁面</h2><p>在 <strong><em>resources/views</em></strong> 內新增 <strong><em>home.blade.php</em></strong> 然後貼上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@extends(&apos;layouts.master&apos;)</div><div class="line">@section(&apos;page-title&apos;, &apos;Home&apos;)</div><div class="line">@section(&apos;page-content&apos;)</div><div class="line">&lt;div class=&quot;col-md-10&quot;&gt;</div><div class="line">    &lt;h3&gt;Welcome to my awesome app!&lt;/h3&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">@stop</div></pre></td></tr></table></figure>
+<p>用 <strong>@extends</strong> 來繼承 Master Page 然後用 <strong>@section</strong> 來改變內容</p>
+<p>最後要用 <strong>@stop</strong> 結尾</p>
+<p>改掉 <strong><em>app/Http/routes.php</em></strong> 中的路徑讓他指向 <strong><em>home.blade.php</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Route::get(&apos;/&apos;, function()&#123;</div><div class="line">    return view(&apos;home&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>這時候執行網頁去跟目錄就可以看見簡單的首頁畫面</p>
+<h2 id="登入頁面"><a href="#登入頁面" class="headerlink" title="登入頁面"></a>登入頁面</h2><p>同樣在 <strong><em>resources/views</em></strong> 新增 <strong><em>login.blade.php</em></strong> 貼上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">@extends(&apos;layouts.master&apos;)</div><div class="line">@section(&apos;page-title&apos;, &apos;Please login&apos;)</div><div class="line">@section(&apos;page-content&apos;)</div><div class="line">    &lt;div class=&quot;row&quot;&gt;</div><div class="line">        &lt;div class=&quot;col-md-8 col-md-offset-1&quot;&gt;</div><div class="line">            &lt;ul&gt;</div><div class="line">                &lt;li&gt;</div><div class="line">                    &lt;a href=&quot;#&quot; class=&quot;btn btn-block btn-lg btn-social btn-facebook social-button&quot;&gt;</div><div class="line">                        &lt;span class=&quot;fa fa-facebook&quot;&gt;&lt;/span&gt; login with Facebook</div><div class="line">                    &lt;/a&gt;</div><div class="line">                &lt;/li&gt;</div><div class="line">                &lt;li&gt;</div><div class="line">                    &lt;a href=&quot;#&quot; class=&quot;btn btn-block btn-lg btn-social btn-google social-button&quot;&gt;</div><div class="line">                        &lt;span class=&quot;fa fa-google&quot;&gt;&lt;/span&gt; login with Google</div><div class="line">                    &lt;/a&gt;</div><div class="line">                &lt;/li&gt;</div><div class="line">                &lt;li&gt;</div><div class="line">                    &lt;a href=&quot;#&quot; class=&quot;btn btn-block btn-lg btn-social btn-twitter social-button&quot;&gt;</div><div class="line">                        &lt;span class=&quot;fa fa-twitter&quot;&gt;&lt;/span&gt; login with Twitter</div><div class="line">                    &lt;/a&gt;</div><div class="line">                &lt;/li&gt;</div><div class="line">            &lt;/ul&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">@stop</div></pre></td></tr></table></figure>
+<p>在改變 Router 前要先生成一個 Controller 來控制登入前/後的畫面</p>
+<p><code>php artisan make:controller LoginController</code></p>
+<p>然後會發現 <strong><em>app/Http/Controllers</em></strong> 裡面多了一個 <strong><em>LoginController.php</em></strong></p>
+<p>在裡面新增一個 <strong>showLoginPage</strong> 的 function</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">namespace App\Http\Controllers;</div><div class="line"></div><div class="line">use App\Http\Requests;</div><div class="line">use Illuminate\Http\Request;</div><div class="line"></div><div class="line"></div><div class="line">class LoginController extends Controller</div><div class="line">&#123;</div><div class="line"></div><div class="line">    public function showLoginPage()</div><div class="line">    &#123;</div><div class="line">       return view(&apos;login&apos;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然後在剛剛的 <strong><em>app/Http/routes.php</em></strong> 內新增 <strong>login</strong> Route 並讓他指向 <strong>LoginController</strong> 的 <strong>showLoginPage</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Route::get(&apos;/&apos;, function()&#123;</div><div class="line">    return view(&apos;home&apos;);</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">Route::get(&apos;login&apos;, &apos;LoginController@showLoginPage&apos;);</div></pre></td></tr></table></figure>
+<p>接下來在 <strong><em>master.blade.php</em></strong> 加點東西把 navbar 上的 Sign In 指向 /login</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;navbar&quot; class=&quot;collapse navbar-collapse&quot;&gt;</div><div class="line">    &lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;</div><div class="line">            &lt;li&gt;</div><div class="line">                &lt;a href=&quot;&#123;&#123; action(&apos;LoginController@showLoginPage&apos;) &#125;&#125;&quot;&gt;Sign In &lt;i class=&quot;fa fa-sign-in&quot;&gt;&lt;/i&gt;&lt;/a&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>此時按下網頁的 Sign In 就會到 /login 下的登入畫面了</p>
+<h1 id="註冊第三方登入的網頁應用"><a href="#註冊第三方登入的網頁應用" class="headerlink" title="註冊第三方登入的網頁應用"></a>註冊第三方登入的網頁應用</h1><p>FB 跟 Google 的畫面因為常會變動所以就略過</p>
+<p>總之都會拿到 <strong>App Id</strong> 跟 <strong>App Secret</strong> </p>
+<p>在 <strong><em>config/services.php</em></strong> 內新增需要的 key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&apos;facebook&apos; =&gt; [</div><div class="line">     &apos;client_id&apos; =&gt; env(&apos;FACEBOOK_CLIENT_ID&apos;),</div><div class="line">     &apos;client_secret&apos; =&gt; env(&apos;FACEBOOK_CLIENT_SECRET&apos;),</div><div class="line">     &apos;redirect&apos; =&gt; &apos;http://social-login.dev/login/facebook/callback&apos;,</div><div class="line"> ],</div><div class="line"> </div><div class="line"> &apos;google&apos; =&gt; [</div><div class="line">     &apos;client_id&apos; =&gt; env(&apos;GOOGLE_CLIENT_ID&apos;),</div><div class="line">     &apos;client_secret&apos; =&gt; env(&apos;GOOGLE_CLIENT_SECRET&apos;),</div><div class="line">     &apos;redirect&apos; =&gt; &apos;http://social-login.dev/login/google/callback&apos;,</div><div class="line"> ],</div></pre></td></tr></table></figure>
+<p>然後在 <strong><em>.env</em></strong> 內新增</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">FACEBOOK_CLIENT_ID=yourFbAppID</div><div class="line">FACEBOOK_CLIENT_SECRET=yourFbAppSecre</div><div class="line"></div><div class="line">GOOGLE_CLIENT_ID=yourGoogleAppClientID</div><div class="line">GOOGLE_CLIENT_SECRET=yourGoogleAppClientSecret</div></pre></td></tr></table></figure>
+<h1 id="認證及登入"><a href="#認證及登入" class="headerlink" title="認證及登入"></a>認證及登入</h1><p>首先處理資料庫的部分，Laravel 預設在 <strong><em>database/migrations</em></strong> 內有個類似叫<br><strong><em>2014_10_12_000000_create_users_table.php</em></strong> 的檔案處理資料庫遷移</p>
+<p>在裡面貼上以下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">use Illuminate\Database\Schema\Blueprint;</div><div class="line">use Illuminate\Database\Migrations\Migration;</div><div class="line"></div><div class="line">class CreateUsersTable extends Migration</div><div class="line">&#123;</div><div class="line">    /**</div><div class="line">     * Run the migrations.</div><div class="line">     *</div><div class="line">     * @return void</div><div class="line">     */</div><div class="line">    public function up()</div><div class="line">    &#123;</div><div class="line">        Schema::create(&apos;users&apos;, function (Blueprint $table) &#123;</div><div class="line">            $table-&gt;increments(&apos;id&apos;);</div><div class="line">            $table-&gt;string(&apos;email&apos;)-&gt;unique();</div><div class="line">            $table-&gt;rememberToken();</div><div class="line">            $table-&gt;timestamps();</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * Reverse the migrations.</div><div class="line">     *</div><div class="line">     * @return void</div><div class="line">     */</div><div class="line">    public function down()</div><div class="line">    &#123;</div><div class="line">        Schema::drop(&apos;users&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>為了第三方登入我們要再新增另一個遷移檔</p>
+<p><code>php artisan make:migration create_social_login_profiles_table --create=social_login_profiles</code></p>
+<p>執行完後會在 <strong><em>database/migrations</em></strong> 內多一個類似 <strong><em>2016_06_03_204539_create_social_login_profiles_table.php</em></strong> 的檔案</p>
+<p>在裡面貼上以下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">use Illuminate\Database\Schema\Blueprint;</div><div class="line">use Illuminate\Database\Migrations\Migration;</div><div class="line"></div><div class="line">class CreateSocialLoginProfilesTable extends Migration</div><div class="line">&#123;</div><div class="line">    /**</div><div class="line">     * Run the migrations.</div><div class="line">     *</div><div class="line">     * @return void</div><div class="line">     */</div><div class="line">    public function up()</div><div class="line">    &#123;</div><div class="line">        Schema::create(&apos;social_login_profiles&apos;, function (Blueprint $table) &#123;</div><div class="line">            $table-&gt;increments(&apos;id&apos;);</div><div class="line">            $table-&gt;integer(&apos;user_id&apos;)-&gt;unsigned()</div><div class="line">                -&gt;references(&apos;id&apos;)-&gt;on(&apos;users&apos;);</div><div class="line">            $table-&gt;string(&apos;facebook_id&apos;);</div><div class="line">            $table-&gt;string(&apos;google_id&apos;);</div><div class="line">            $table-&gt;string(&apos;twitter_id&apos;);</div><div class="line">            $table-&gt;timestamps();</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * Reverse the migrations.</div><div class="line">     *</div><div class="line">     * @return void</div><div class="line">     */</div><div class="line">    public function down()</div><div class="line">    &#123;</div><div class="line">        Schema::drop(&apos;social_login_profiles&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>登入所使用的資料庫並新增一個 <strong>social_login</strong> 的資料庫並更新我們的 <strong><em>.env</em></strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">DB_CONNECTION=mysql</div><div class="line">DB_HOST=127.0.0.1</div><div class="line">DB_PORT=3306</div><div class="line">DB_DATABASE=social_login</div><div class="line">DB_USERNAME=root</div><div class="line">DB_PASSWORD=yourRootPassword</div></pre></td></tr></table></figure>
+<p>然後執行剛剛的 migration 檔並新增 tables</p>
+<p><code>php artisan migrate</code> </p>
+<h1 id="未完"><a href="#未完" class="headerlink" title="未完"></a>未完</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag">#php</a>
+          
+            <a href="/tags/laravel/" rel="tag">#Laravel</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/23/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/12/決策樹分析練習/" rel="prev" title="決策樹分析練習">
+                決策樹分析練習 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/avatar.png"
+               alt="N.M." />
+          <p class="site-author-name" itemprop="name">N.M.</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/freedomtomdestiny" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Server-amp-PHP"><span class="nav-number">1.1.</span> <span class="nav-text">Web Server & PHP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIT-amp-Composer"><span class="nav-number">1.2.</span> <span class="nav-text">GIT & Composer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Setting-up-the-project"><span class="nav-number">2.</span> <span class="nav-text">Setting up the project</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#畫面"><span class="nav-number">3.</span> <span class="nav-text">畫面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Master-Page"><span class="nav-number">3.1.</span> <span class="nav-text">Master Page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要頁面"><span class="nav-number">3.2.</span> <span class="nav-text">主要頁面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登入頁面"><span class="nav-number">3.3.</span> <span class="nav-text">登入頁面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#註冊第三方登入的網頁應用"><span class="nav-number">4.</span> <span class="nav-text">註冊第三方登入的網頁應用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#認證及登入"><span class="nav-number">5.</span> <span class="nav-text">認證及登入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#未完"><span class="nav-number">6.</span> <span class="nav-text">未完</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N.M.</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'heroku-hexo-blog';
+      var disqus_identifier = '2016/10/10/Laravel第三方登入/';
+      var disqus_title = "Laravel第三方登入";
+      var disqus_url = 'https://freedomtomdestiny.github.io/2016/10/10/Laravel第三方登入/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

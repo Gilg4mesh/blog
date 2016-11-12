@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="google-site-verification" content="UNtXB-bwRUcLHFv-rM19md7pSlBLMto2KVXRlS9C8pM" />
+<meta property="wb:webmaster" content="f98ad1486339b3b1" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="php,AWS,OpenCart," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在 AWS 上利用 EC2 及 CloudFront 架設 OpenCart 系統">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在AWS上架設OpenCart">
+<meta property="og:url" content="https://freedomtomdestiny.github.io/2016/11/12/在aws上架設opencart/index.html">
+<meta property="og:site_name" content="N.M.'s Blog">
+<meta property="og:description" content="在 AWS 上利用 EC2 及 CloudFront 架設 OpenCart 系統">
+<meta property="og:image" content="http://i.imgur.com/b4QeVD3.png">
+<meta property="og:image" content="http://i.imgur.com/9oDBdAe.png">
+<meta property="og:image" content="http://i.imgur.com/V6m3zzT.png">
+<meta property="og:image" content="http://i.imgur.com/qnozQuv.png">
+<meta property="og:image" content="http://i.imgur.com/G1kA1bQ.png">
+<meta property="og:image" content="http://i.imgur.com/rlMYhzc.png">
+<meta property="og:image" content="http://i.imgur.com/eUZFOVh.png">
+<meta property="og:image" content="http://i.imgur.com/nDbFqvb.png">
+<meta property="og:image" content="http://i.imgur.com/VR7Ms03.png">
+<meta property="og:image" content="http://i.imgur.com/JTM5Fjo.png">
+<meta property="og:image" content="http://i.imgur.com/3igHkmZ.png">
+<meta property="og:image" content="http://i.imgur.com/cUrFv87.png">
+<meta property="og:image" content="http://i.imgur.com/ITOi1Xf.png">
+<meta property="og:updated_time" content="2016-11-12T15:10:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在AWS上架設OpenCart">
+<meta name="twitter:description" content="在 AWS 上利用 EC2 及 CloudFront 架設 OpenCart 系統">
+<meta name="twitter:image" content="http://i.imgur.com/b4QeVD3.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://freedomtomdestiny.github.io/2016/11/12/在aws上架設opencart/"/>
+
+  <title> 在AWS上架設OpenCart | N.M.'s Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-85646727-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">N.M.'s Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                在AWS上架設OpenCart
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T21:19:39+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/網頁/" itemprop="url" rel="index">
+                    <span itemprop="name">網頁</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/網頁/雲端服務/" itemprop="url" rel="index">
+                    <span itemprop="name">雲端服務</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/在aws上架設opencart/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/12/在aws上架設opencart/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在 AWS 上利用 EC2 及 CloudFront 架設 OpenCart 系統</p>
+<a id="more"></a>
+<h1 id="環境介紹"><a href="#環境介紹" class="headerlink" title="環境介紹"></a>環境介紹</h1><p>這次因為剛好辦了 amazon 的帳號有一年試用時間所以以這裡的環境作為示範</p>
+<p>不會用英文介面的話可以考慮使用 Azure 或是中華電信的雲端服務</p>
+<p>下圖是有用到的兩個服務</p>
+<p>倉儲空間不夠的話可以考慮再串接 S3 的服務</p>
+<p><img src="http://i.imgur.com/b4QeVD3.png" alt="image"></p>
+<h1 id="Opencart-安裝"><a href="#Opencart-安裝" class="headerlink" title="Opencart 安裝"></a>Opencart 安裝</h1><h2 id="創建EC2虛擬機"><a href="#創建EC2虛擬機" class="headerlink" title="創建EC2虛擬機"></a>創建EC2虛擬機</h2><p>生成一組 key 讓 opencart 安裝時能直接用 (可以直接創虛擬機讓他要求生成 key)</p>
+<p>然後之後 SSH 也要用所以先把 key 載下來</p>
+<h2 id="使用-awsmarketplace-安裝-opencart"><a href="#使用-awsmarketplace-安裝-opencart" class="headerlink" title="使用 awsmarketplace 安裝 opencart"></a>使用 awsmarketplace 安裝 opencart</h2><p>此處使用 OpenCart powered by Bitnami</p>
+<p>版本為 2.3.0.2-1-r27 on Ubuntu 14.04.3</p>
+<p>連結 : <a href="https://aws.amazon.com/marketplace/pp/B00YW7P43K" target="_blank" rel="external">https://aws.amazon.com/marketplace/pp/B00YW7P43K</a></p>
+<ol>
+<li>登入之後點選 Continue</li>
+</ol>
+<p><img src="http://i.imgur.com/9oDBdAe.png" alt="image"></p>
+<ol>
+<li>選擇要使用的虛擬機規格(我只有免費試用所以用 t2.micro)</li>
+<li>然後最下面選擇你一開始創的 key</li>
+<li>點選 Launch with 1-click</li>
+</ol>
+<p><img src="http://i.imgur.com/V6m3zzT.png" alt="image"></p>
+<ol>
+<li>然後就幫你裝好了 ! (好啦其實虛擬機那邊要等他跑一下 :p)</li>
+</ol>
+<p><img src="http://i.imgur.com/qnozQuv.png" alt="image"></p>
+<h3 id="附錄-opencart-管理者帳密"><a href="#附錄-opencart-管理者帳密" class="headerlink" title="附錄. opencart 管理者帳密"></a>附錄. opencart 管理者帳密</h3><p>用這個套件安裝完 opencart 後他會先自動把你的管理員帳密設定好</p>
+<p>帳號是 user，密碼比較麻煩要自己去看</p>
+<p>在裝了 opencart 的虛擬機右鍵 -&gt; Instance Settings -&gt; Get System Log</p>
+<p>取得預設密碼把它存起來之後再自己去修改</p>
+<p><img src="http://i.imgur.com/G1kA1bQ.png" alt="image"></p>
+<h1 id="SSH-連線到虛擬機"><a href="#SSH-連線到虛擬機" class="headerlink" title="SSH 連線到虛擬機"></a>SSH 連線到虛擬機</h1><h2 id="使用-PuTTYgen-轉換您的私有金鑰"><a href="#使用-PuTTYgen-轉換您的私有金鑰" class="headerlink" title="使用 PuTTYgen 轉換您的私有金鑰"></a>使用 PuTTYgen 轉換您的私有金鑰</h2><p>PuTTY 本身不支援 Amazon EC2 生成的私有金鑰格式 (.pem)</p>
+<p>PuTTY 有一個名為 PuTTYgen 的工具，可將金鑰轉換成所需的 PuTTY 格式 (.ppk)</p>
+<p>必須將私有金鑰轉換為此格式 (.ppk)，然後才能嘗試使用 PuTTY 連接到實例</p>
+<ol>
+<li>在 Type of key to generate (要生成的金鑰類型) 下，選擇 SSH-2 RSA</li>
+<li>按下”Load”選擇顯示所有類型 (在預設情況下，PuTTYgen 僅顯示副檔名為 .ppk 的文件)</li>
+<li>選擇啟動實例時指定的金鑰 .pem 文件，按下 Open，按下 OK 關閉確認</li>
+<li>按下 Save private key 後會顯示一條關於在沒有口令的情況下保存金鑰的警告，按下 Yes</li>
+</ol>
+<h2 id="使用-PuTTY-連線主機"><a href="#使用-PuTTY-連線主機" class="headerlink" title="使用 PuTTY 連線主機"></a>使用 PuTTY 連線主機</h2><ol>
+<li>在 Host Name (主機名稱) 框中，輸入 user_name@public_dns_name</li>
+<li>在 Connection type 選擇 SSH，Port 為 22</li>
+<li>在 Category 中，展開 Connection，再展開 SSH，然後選擇 Auth，Browse 剛剛生成的 .ppk</li>
+<li>回到 Session 把設定存下來以便下次用</li>
+<li>Open 開啟連線 (警告詢問您是否信任您要連接到的主機可直接按下 YES)</li>
+</ol>
+<h2 id="使用-FileZilla-上傳-下載檔案"><a href="#使用-FileZilla-上傳-下載檔案" class="headerlink" title="使用 FileZilla 上傳/下載檔案"></a>使用 FileZilla 上傳/下載檔案</h2><ol>
+<li>編輯-&gt;設置-&gt;連接-&gt;SFTP-&gt;加入金鑰檔案（用一開始的.pem即可）-&gt;確認</li>
+<li>檔案-&gt;站台管理員-&gt;新增站台</li>
+<li>主機輸入 EC2 的 Public DNS，協定選 SFTP，登入形式選一般，使用者為 ubuntu</li>
+<li>連線 (這次安裝的 opencart 頁面目錄在 /opt/bitnami/apps/opencart/htdocs)</li>
+</ol>
+<h3 id="附錄-opencart-中文化"><a href="#附錄-opencart-中文化" class="headerlink" title="附錄. opencart 中文化"></a>附錄. opencart 中文化</h3><p>使用 ntcart 製作的繁體包 : <a href="https://www.opencart.com/index.php?route=marketplace/extension/info&amp;extension_id=27435" target="_blank" rel="external">https://www.opencart.com/index.php?route=marketplace/extension/info&amp;extension_id=27435</a></p>
+<p>下載後把 language 裡的語言包用 FileZilla 放到對應的目錄下</p>
+<ol>
+<li>到管理員介面-&gt; System -&gt; Localisation -&gt; Language -&gt; Add New -&gt;必填項目都填 zh-TW -&gt; Save -&gt; 新增完成 !</li>
+</ol>
+<p><img src="http://i.imgur.com/rlMYhzc.png" alt="image"></p>
+<ol>
+<li>再到 System -&gt; Settings -&gt;把前 Language 都改成 zh-TW -&gt; Save -&gt; Done !</li>
+</ol>
+<p><img src="http://i.imgur.com/eUZFOVh.png" alt="image"></p>
+<h1 id="使用-CDN"><a href="#使用-CDN" class="headerlink" title="使用 CDN"></a>使用 CDN</h1><ol>
+<li>開通 CloudFront 服務</li>
+<li>沒有用過的話首先點 Create Distribution </li>
+<li>在 web 那邊點 Get Started</li>
+<li>Origin Domain Name 填上 EC2 的 Public DNS</li>
+</ol>
+<p><img src="http://i.imgur.com/nDbFqvb.png" alt="image"></p>
+<ol>
+<li>可以選擇添加CNAME (只需要輸入要使用的二級網址 cdn.DomainName 即可，此處設置後需要步驟7)</li>
+</ol>
+<p><img src="http://i.imgur.com/VR7Ms03.png" alt="image"></p>
+<ol>
+<li>按下建立按鈕，先去看集動畫再回來，Status 應該就從 InProgress 變成 Depolyed 了</li>
+</ol>
+<p><img src="http://i.imgur.com/JTM5Fjo.png" alt="image"></p>
+<ol>
+<li>有 CNAME 的話要到自己的網址注冊商處添加一條該 CNAME 的 DNS 記錄指到 CloudFront 的 Domain name</li>
+</ol>
+<p>用 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="external">https://developers.google.com/speed/pagespeed/insights/</a> 測試分配到的 xxx.cloudfront.net 確實有比較快</p>
+<h1 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h1><p>最後看看 AWS 上使用的服務狀況</p>
+<p><img src="http://i.imgur.com/3igHkmZ.png" alt="image"></p>
+<p>還有架設好的 OpenCart 前端</p>
+<p><img src="http://i.imgur.com/cUrFv87.png" alt="image"></p>
+<p>以及管理者介面</p>
+<p><img src="http://i.imgur.com/ITOi1Xf.png" alt="image"></p>
+<h1 id="名詞解釋"><a href="#名詞解釋" class="headerlink" title="名詞解釋"></a>名詞解釋</h1><ul>
+<li>CDN</li>
+</ul>
+<p>全稱是 Content Delivery Network，即內容分髮網絡。其目的是通過在現有的Internet中增加一層新的 CACHE(緩存)層，將網站的內容發布到最接近用戶的網絡」邊緣「的節點，使用戶可以就近取得所需的內容，提高用戶訪問網站的響應速度。從技術上全面解決由於網絡帶寬小、用戶訪問量大、網點分布不均等原因，提高用戶訪問網站的響應速度。</p>
+<ul>
+<li>CNAME</li>
+</ul>
+<p>全稱是 Canonical Name，別名指向，將 www.domain.com 或 cdn.domain.com 等來源網域對應至目的地網域的 DNS 功能。在這種情況下，來源網域是使用者的自訂網域和子網域 (www 或 cdn 子網域一律是必要的項目)。目的地網域是 CDN 端點。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag">#php</a>
+          
+            <a href="/tags/aws/" rel="tag">#AWS</a>
+          
+            <a href="/tags/opencart/" rel="tag">#OpenCart</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/決策樹分析練習/" rel="next" title="決策樹分析練習">
+                <i class="fa fa-chevron-left"></i> 決策樹分析練習
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/avatar.png"
+               alt="N.M." />
+          <p class="site-author-name" itemprop="name">N.M.</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/freedomtomdestiny" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#環境介紹"><span class="nav-number">1.</span> <span class="nav-text">環境介紹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Opencart-安裝"><span class="nav-number">2.</span> <span class="nav-text">Opencart 安裝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#創建EC2虛擬機"><span class="nav-number">2.1.</span> <span class="nav-text">創建EC2虛擬機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-awsmarketplace-安裝-opencart"><span class="nav-number">2.2.</span> <span class="nav-text">使用 awsmarketplace 安裝 opencart</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附錄-opencart-管理者帳密"><span class="nav-number">2.2.1.</span> <span class="nav-text">附錄. opencart 管理者帳密</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH-連線到虛擬機"><span class="nav-number">3.</span> <span class="nav-text">SSH 連線到虛擬機</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-PuTTYgen-轉換您的私有金鑰"><span class="nav-number">3.1.</span> <span class="nav-text">使用 PuTTYgen 轉換您的私有金鑰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-PuTTY-連線主機"><span class="nav-number">3.2.</span> <span class="nav-text">使用 PuTTY 連線主機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-FileZilla-上傳-下載檔案"><span class="nav-number">3.3.</span> <span class="nav-text">使用 FileZilla 上傳/下載檔案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附錄-opencart-中文化"><span class="nav-number">3.3.1.</span> <span class="nav-text">附錄. opencart 中文化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-CDN"><span class="nav-number">4.</span> <span class="nav-text">使用 CDN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#結語"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#名詞解釋"><span class="nav-number">6.</span> <span class="nav-text">名詞解釋</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N.M.</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'heroku-hexo-blog';
+      var disqus_identifier = '2016/11/12/在aws上架設opencart/';
+      var disqus_title = "在AWS上架設OpenCart";
+      var disqus_url = 'https://freedomtomdestiny.github.io/2016/11/12/在aws上架設opencart/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
