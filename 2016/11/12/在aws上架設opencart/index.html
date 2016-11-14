@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://i.imgur.com/3igHkmZ.png">
 <meta property="og:image" content="http://i.imgur.com/cUrFv87.png">
 <meta property="og:image" content="http://i.imgur.com/ITOi1Xf.png">
-<meta property="og:updated_time" content="2016-11-12T15:10:24.000Z">
+<meta property="og:updated_time" content="2016-11-14T08:43:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在AWS上架設OpenCart">
 <meta name="twitter:description" content="在 AWS 上利用 EC2 及 CloudFront 架設 OpenCart 系統">
@@ -371,19 +371,11 @@
 <h2 id="使用-awsmarketplace-安裝-opencart"><a href="#使用-awsmarketplace-安裝-opencart" class="headerlink" title="使用 awsmarketplace 安裝 opencart"></a>使用 awsmarketplace 安裝 opencart</h2><p>此處使用 OpenCart powered by Bitnami</p>
 <p>版本為 2.3.0.2-1-r27 on Ubuntu 14.04.3</p>
 <p>連結 : <a href="https://aws.amazon.com/marketplace/pp/B00YW7P43K" target="_blank" rel="external">https://aws.amazon.com/marketplace/pp/B00YW7P43K</a></p>
-<ol>
-<li>登入之後點選 Continue</li>
-</ol>
+<p>1.登入之後點選 Continue</p>
 <p><img src="http://i.imgur.com/9oDBdAe.png" alt="image"></p>
-<ol>
-<li>選擇要使用的虛擬機規格(我只有免費試用所以用 t2.micro)</li>
-<li>然後最下面選擇你一開始創的 key</li>
-<li>點選 Launch with 1-click</li>
-</ol>
+<p>2.選擇要使用的虛擬機規格(我只有免費試用所以用 t2.micro)<br>3.然後最下面選擇你一開始創的 key<br>4.點選 Launch with 1-click</p>
 <p><img src="http://i.imgur.com/V6m3zzT.png" alt="image"></p>
-<ol>
-<li>然後就幫你裝好了 ! (好啦其實虛擬機那邊要等他跑一下 :p)</li>
-</ol>
+<p>5.然後就幫你裝好了 ! (好啦其實虛擬機那邊要等他跑一下 :p)</p>
 <p><img src="http://i.imgur.com/qnozQuv.png" alt="image"></p>
 <h3 id="附錄-opencart-管理者帳密"><a href="#附錄-opencart-管理者帳密" class="headerlink" title="附錄. opencart 管理者帳密"></a>附錄. opencart 管理者帳密</h3><p>用這個套件安裝完 opencart 後他會先自動把你的管理員帳密設定好</p>
 <p>帳號是 user，密碼比較麻煩要自己去看</p>
@@ -414,32 +406,17 @@
 </ol>
 <h3 id="附錄-opencart-中文化"><a href="#附錄-opencart-中文化" class="headerlink" title="附錄. opencart 中文化"></a>附錄. opencart 中文化</h3><p>使用 ntcart 製作的繁體包 : <a href="https://www.opencart.com/index.php?route=marketplace/extension/info&amp;extension_id=27435" target="_blank" rel="external">https://www.opencart.com/index.php?route=marketplace/extension/info&amp;extension_id=27435</a></p>
 <p>下載後把 language 裡的語言包用 FileZilla 放到對應的目錄下</p>
-<ol>
-<li>到管理員介面-&gt; System -&gt; Localisation -&gt; Language -&gt; Add New -&gt;必填項目都填 zh-TW -&gt; Save -&gt; 新增完成 !</li>
-</ol>
+<p>1.到管理員介面-&gt; System -&gt; Localisation -&gt; Language -&gt; Add New -&gt;必填項目都填 zh-TW -&gt; Save -&gt; 新增完成 !</p>
 <p><img src="http://i.imgur.com/rlMYhzc.png" alt="image"></p>
-<ol>
-<li>再到 System -&gt; Settings -&gt;把前 Language 都改成 zh-TW -&gt; Save -&gt; Done !</li>
-</ol>
+<p>2.再到 System -&gt; Settings -&gt;把前 Language 都改成 zh-TW -&gt; Save -&gt; Done !</p>
 <p><img src="http://i.imgur.com/eUZFOVh.png" alt="image"></p>
-<h1 id="使用-CDN"><a href="#使用-CDN" class="headerlink" title="使用 CDN"></a>使用 CDN</h1><ol>
-<li>開通 CloudFront 服務</li>
-<li>沒有用過的話首先點 Create Distribution </li>
-<li>在 web 那邊點 Get Started</li>
-<li>Origin Domain Name 填上 EC2 的 Public DNS</li>
-</ol>
+<h1 id="使用-CDN"><a href="#使用-CDN" class="headerlink" title="使用 CDN"></a>使用 CDN</h1><p>1.開通 CloudFront 服務<br>2.沒有用過的話首先點 Create Distribution<br>3.在 web 那邊點 Get Started<br>4.Origin Domain Name 填上 EC2 的 Public DNS</p>
 <p><img src="http://i.imgur.com/nDbFqvb.png" alt="image"></p>
-<ol>
-<li>可以選擇添加CNAME (只需要輸入要使用的二級網址 cdn.DomainName 即可，此處設置後需要步驟7)</li>
-</ol>
+<p>5.可以選擇添加CNAME (只需要輸入要使用的二級網址 cdn.DomainName 即可，此處設置後需要步驟7)</p>
 <p><img src="http://i.imgur.com/VR7Ms03.png" alt="image"></p>
-<ol>
-<li>按下建立按鈕，先去看集動畫再回來，Status 應該就從 InProgress 變成 Depolyed 了</li>
-</ol>
+<p>6.按下建立按鈕，先去看集動畫再回來，Status 應該就從 InProgress 變成 Depolyed 了</p>
 <p><img src="http://i.imgur.com/JTM5Fjo.png" alt="image"></p>
-<ol>
-<li>有 CNAME 的話要到自己的網址注冊商處添加一條該 CNAME 的 DNS 記錄指到 CloudFront 的 Domain name</li>
-</ol>
+<p>7.有 CNAME 的話要到自己的網址注冊商處添加一條該 CNAME 的 DNS 記錄指到 CloudFront 的 Domain name</p>
 <p>用 <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="external">https://developers.google.com/speed/pagespeed/insights/</a> 測試分配到的 xxx.cloudfront.net 確實有比較快</p>
 <h1 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h1><p>最後看看 AWS 上使用的服務狀況</p>
 <p><img src="http://i.imgur.com/3igHkmZ.png" alt="image"></p>
